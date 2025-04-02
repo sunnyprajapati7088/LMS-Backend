@@ -37,3 +37,33 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };  
+
+ exports.loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    console.log(req.body);
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: "Invalid Credentials" });
+    console.log(user)
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid Credentials" });
+
+    const token = jwt.sign({ id: user._id, role: user.role ,user:user.name}, process.env.JWT_SECRET, { expiresIn: "5m" });
+
+    res.json({ message: "Login successful", token,role:user.role });
+
+  } catch (error) {
+    console.log(error)  
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
+exports.getProfile = async (req, res) => {
+  console.log(req)
+    try {
+      res.json({ message: "Welcome to your profile", user: req.user });
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching profile", error });
+    }
+  };
