@@ -12,6 +12,7 @@ const categoriesRoutes = require("./routes/categoriesRoutes");
 const nodemailer = require('nodemailer');
 const  mongoose = require("mongoose");
 const feedbackRoutes =require ('./routes/feedbackRoutes.js')
+const enrollmentRoutes = require("./routes/enrollmentRoutes");
 dotenv.config();
 connectDB();
 
@@ -27,7 +28,7 @@ app.use("/api/carousel",carouselRoutes);
 app.use("/api/placement", placementRoutes); 
 app.use("/api/images", imageRoutes);// Add this line to include placement routes
 app.use("/api/feedback", feedbackRoutes);
-
+app.use("/api", enrollmentRoutes);
 
 const Callback = mongoose.model('Callback', new mongoose.Schema({
     name: String,
