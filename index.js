@@ -13,6 +13,7 @@ const nodemailer = require('nodemailer');
 const  mongoose = require("mongoose");
 const feedbackRoutes =require ('./routes/feedbackRoutes.js')
 const enrollmentRoutes = require("./routes/enrollmentRoutes");
+const authMiddleware = require("./middleware/authMiddleware");
 dotenv.config();
 connectDB();
 
